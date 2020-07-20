@@ -1,0 +1,14 @@
+{
+  "name": "slimsurfer.js",
+  "version": "2.0.6",
+  "homepage": "https://github.com/upboundpro/slimsurfer.js",
+  "authors": [
+    "upboundpro"
+  ],
+  "description": "Navigable waveform built on Web Audio and Canvas",
+  "main": "dist/slimsurfer.js",
+  "keywords": [
+    "waveform", "audio", "music", "player"
+  ],
+  "license": "BSD-3-Clause"
+}

@@ -1,0 +1,25 @@
+#annotations {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.slimsurfer-annotations tr.slimsurfer-active td {
+    background-color: yellow;
+}
+
+.slimsurfer-time {
+    width: 100px;
+    color: #555;
+}
+
+.slimsurfer-tier-Text {
+    width: 500px;
+}
+
+td.slimsurfer-tier-Comments {
+    color: #999;
+}
+
+.slimsurfer-handle {
+    background-color: #c9e2b3;
+}

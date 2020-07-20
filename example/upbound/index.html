@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>slimsurfer.js for upbound</title>
+
+  <!-- Bootstrap -->
+  <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+
+  <!-- slimsurfer.js -->
+  <script src="../../dist/slimsurfer.js"></script>
+
+  <!-- When SlimSurfer works fine we can test the cursor plugin -->
+  <script src="../../dist/plugin/slimsurfer.regions.js"></script>
+  <script src="../../dist/plugin/slimsurfer.cursor.js"></script>
+
+  <!-- Demo -->
+  <script src="main.js"></script>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>slimsurfer.js for upbound</h1>
+    </div>
+
+    <!--<div id="demo">-->
+      <div class="waveform wf1">
+        <!-- Here be the waveform -->
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" data-action="play">
+          <i class="glyphicon glyphicon-play"></i>
+          Play
+          /
+          <i class="glyphicon glyphicon-pause"></i>
+          Pause
+        </button>
+      </div>
+    <!--</div>-->
+  </div>
+</body>
+
+<style>
+.container {
+  position: absolute;
+  height: 100%;
+  width: 80%;
+
+}
+.waveform {
+  height: 50%;
+  position: relative;
+}
+</style>
+</html>
