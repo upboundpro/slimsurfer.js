@@ -44,6 +44,14 @@ Build documentation with esdoc (generated files are placed in the `doc` director
 npm run doc
 ```
 
+#### Publishing to NPM
+Tagged commits to the master branch are automatically published to NPM. You can tag a commit using the `npm` cli:
+```bash
+npm version patch -m "Bump version"
+git push origin master --follow-tags
+```
+
+
 ## Credits
 
 Many thanks to the original authors
