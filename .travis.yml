@@ -14,6 +14,7 @@ jobs:
     name: Deploy to NPM
     script:
     - npm run build
+    - cp slimsurfer.d.ts ./dist/index.d.ts
     deploy:
       provider: npm
       email: upboundpro@gmail.com
