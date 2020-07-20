@@ -305,7 +305,6 @@ var Drawer = /*#__PURE__*/function (_util$Observer) {
         position: 'relative',
         userSelect: 'none',
         webkitUserSelect: 'none',
-        //height: this.params.height + 'px'
         height: '100%'
       });
 
@@ -887,7 +886,6 @@ var MultiCanvas = /*#__PURE__*/function (_Drawer) {
 
       if (this.hasProgressCanvas) {
         entry.progress = this.progressWave.appendChild(this.style(document.createElement('canvas'), {
-          //position: 'absolute',
           position: 'relative',
           left: leftOffset + 'px',
           top: 0,
@@ -1300,7 +1298,6 @@ var MultiCanvas = /*#__PURE__*/function (_Drawer) {
         entry.progressCtx.fillStyle = this.params.progressColor;
       }
     }
-
     /**
      * Render the new progress
      *
@@ -1398,12 +1395,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
 
     _this.media = {
       currentTime: 0,
-      duration: 0 //paused: true,
-      //playbackRate: 1,
-      //play() {},
-      //pause() {}
-      //volume: 0
-
+      duration: 0
     };
     /** @private */
 
@@ -1413,19 +1405,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
     _this.elementPosition = params.elementPosition;
     /** @private */
 
-    _this.peaks = null; // Removed playback rate variable
-
-    /** @private */
-    //this.playbackRate = 1;
-    // Removed volume variable
-
-    /** @private */
-    //this.volume = 1;
-    // Removed buffer variable
-
-    /** @private */
-    //this.buffer = null;
-
+    _this.peaks = null;
     /** @private */
 
     _this.onPlayEnd = null;
@@ -1439,8 +1419,6 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
   _createClass(MediaElement, [{
     key: "init",
     value: function init() {
-      //this.setPlaybackRate(this.params.audioRate);
-      //this.setPlaybackRate(this.playbackRate);
       this.createTimer();
     }
     /**
@@ -1494,7 +1472,6 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
      * @param {number[]|number[][]} peaks Array of peak data
      * @param {string} preload HTML 5 preload attribute value
      */
-    //load(url, container, peaks, preload) {
 
   }, {
     key: "load",
@@ -1516,23 +1493,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       container.appendChild(media);
 
       this._load(media, peaks);
-    } // Removed loading of existing audio element using loadElt()
-
-    /**
-     * Load existing media element.
-     *
-     * @param {HTMLMediaElement} elt HTML5 Audio or Video element
-     * @param {number[]|number[][]} peaks Array of peak data
-     */
-
-    /*
-    loadElt(elt, peaks) {
-        elt.controls = this.params.mediaControls;
-        elt.autoplay = this.params.autoplay || false;
-         this._load(elt, peaks);
     }
-    */
-
     /**
      * Private method called by both load (from url)
      * and loadElt (existing media element).
@@ -1577,6 +1538,12 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       this.peaks = peaks;
       this.onPlayEnd = null;
     }
+    /**
+     * Used by `slimsurfer.getDuration()`
+     *
+     * @return {number}
+     */
+
   }, {
     key: "getDuration",
     value: function getDuration() {
@@ -1592,8 +1559,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       }
 
       return duration;
-    } // TODO: Handle current time
-
+    }
     /**
      * Returns the current time in seconds relative to the audioclip's
      * duration.
@@ -1605,8 +1571,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
     key: "getCurrentTime",
     value: function getCurrentTime() {
       return this.media && this.media.currentTime;
-    } // TODO: Handle played percents
-
+    }
     /**
      * Get the position from 0 to 1
      *
@@ -1618,6 +1583,12 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
     value: function getPlayedPercents() {
       return this.getCurrentTime() / this.getDuration() || 0;
     }
+    /**
+     * Used by `slimsurfer.seekTo()`
+     *
+     * @param {number} start Position to start at in seconds
+     */
+
   }, {
     key: "seekTo",
     value: function seekTo(start) {
@@ -1627,6 +1598,8 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
 
       this.clearPlayEnd();
     }
+    /** @private */
+
   }, {
     key: "setPlayEnd",
     value: function setPlayEnd(end) {
@@ -1642,6 +1615,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
 
       this.on('audioprocess', this._onPlayEnd);
     }
+    /** @private */
 
   }, {
     key: "clearPlayEnd",
@@ -1671,10 +1645,14 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
 
       return this.peaks || [];
     }
+    /**
+     * This is called when slimsurfer is destroyed
+     *
+     */
+
   }, {
     key: "destroy",
     value: function destroy() {
-      //this.pause();
       this.unAll();
 
       if (this.params.removeMediaElementOnDestroy && this.media && this.media.parentNode) {
@@ -1742,13 +1720,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-//import PeakCache from './peakcache';
-
 /*
  * This work is licensed under a BSD-3-Clause License.
  */
-
-/*This library has been modified by Roman Dahm to only render pre-computed peaks with events.*/
 
 /** @external {HTMLElement} https://developer.mozilla.org/en/docs/Web/API/HTMLElement */
 
@@ -1950,13 +1924,6 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
     key: "create",
 
     /** @private */
-    // Removed enum of both backends
-
-    /** @private */
-
-    /*
-    backends = {MediaElement, WebAudio};
-    */
 
     /**
      * Instantiate this class, call its `init` function and returns it
@@ -2000,10 +1967,8 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
      */
 
     _this.defaultParams = {
-      //audioContext: null,
       audioRate: 1,
       autoCenter: true,
-      //backend: 'MediaElement', //'WebAudio',
       barHeight: 1,
       barGap: null,
       container: null,
@@ -2011,7 +1976,6 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       cursorWidth: 1,
       dragSelection: true,
       fillParent: true,
-      //forceDecode: false,
       height: 128,
       hideScrollbar: false,
       interact: true,
@@ -2022,7 +1986,6 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       mediaType: 'audio',
       minPxPerSec: 20,
       normalize: false,
-      //partialRender: false,
       pixelRatio: window.devicePixelRatio || screen.deviceXDPI / screen.logicalXDPI,
       plugins: [],
       progressColor: '#555',
@@ -2032,8 +1995,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       scrollParent: false,
       skipLength: 2,
       splitChannels: false,
-      waveColor: '#999' //xhr: {}
-
+      waveColor: '#999'
     };
     _this.util = util;
     _this.params = util.extend({}, _this.defaultParams, params);
@@ -2064,22 +2026,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       throw new Error('maxCanvasWidth must be greater than 1');
     } else if (_this.params.maxCanvasWidth % 2 == 1) {
       throw new Error('maxCanvasWidth must be an even number');
-    } // Removed savedVolume variable
-
-    /**
-     * @private Used to save the current volume when muting so we can
-     * restore once unmuted
-     * @type {number}
-     */
-    //this.savedVolume = 0;
-    // Removed isMuted status variable
-
-    /**
-     * @private The current muted state
-     * @type {boolean}
-     */
-    //this.isMuted = false;
-
+    }
     /**
      * @private Will hold a list of event descriptors that need to be
      * cancelled on subsequent loads of audio
@@ -2087,28 +2034,13 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
      */
 
 
-    _this.tmpEvents = []; // Removed currentAjax variable
-
-    /**
-     * @private Holds any running audio downloads
-     * @type {Observer}
-     */
-    //this.currentAjax = null;
-    // Removed array buffer variable
-
-    /** @private */
-    //this.arraybuffer = null;
-
+    _this.tmpEvents = [];
     /** @private */
 
     _this.drawer = null;
     /** @private */
 
-    _this.backend = null; // Removed peak cache variable
-
-    /** @private */
-    //this.peakCache = null;
-    // cache constructor objects
+    _this.backend = null; // cache constructor objects
 
     if (typeof _this.params.renderer !== 'function') {
       throw new Error('Renderer parameter is invalid');
@@ -2118,17 +2050,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
      */
 
 
-    _this.Drawer = _this.params.renderer; // Removed uninitialised Backend class since we only use MediaElement
-
-    /**
-     * @private The uninitialised Backend class
-     */
-
-    /*
-     this.Backend = this.backends[this.params.backend];
-    */
-    // this.Backend = MediaElement;
-
+    _this.Drawer = _this.params.renderer;
     /**
      * @private map of plugin names that are currently initialised
      */
@@ -2338,30 +2260,14 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
 
       this.drawer = new this.Drawer(this.container, this.params);
       this.drawer.init();
-      this.fireEvent('drawer-created', this.drawer); // REMOVED Resize events only when responsive
-
-      /*
-      if (this.params.responsive !== false) {
-          window.addEventListener('resize', this._onResize, true);
-          window.addEventListener('orientationchange', this._onResize, true);
-      }
-      */
-      // ADDED Resize events as defaults
-
+      this.fireEvent('drawer-created', this.drawer);
       window.addEventListener('resize', this._onResize, true);
       window.addEventListener('orientationchange', this._onResize, true);
       this.drawer.on('redraw', function () {
         _this5.drawBuffer();
 
         _this5.drawer.progress(_this5.backend.getPlayedPercents());
-      }); // REMOVED Click-to-seek functionality
-
-      /*
-      this.drawer.on('click', (e, progress) => {
-          setTimeout(() => this.seekTo(progress), 0);
-      });
-      */
-      // ADDED interaction event on click
+      }); // ADDED interaction event on click
 
       this.drawer.on('click', function (e, progress) {
         setTimeout(function () {
@@ -2389,54 +2295,12 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
     value: function createBackend() {
       if (this.backend) {
         this.backend.destroy();
-      } // Removed back compatibiliy stuff
-
-      /* Back compat
-      if (this.params.backend == 'AudioElement') {
-          this.params.backend = 'MediaElement';
       }
-      */
-      // Removed switching between backends
-
-      /*
-      if (
-          this.params.backend == 'WebAudio' &&
-          !this.Backend.prototype.supportsWebAudio.call(null)
-      ) {
-          this.params.backend = 'MediaElement';
-      }*/
-      //this.backend = new this.Backend(this.params);
-
 
       this.backend = new _mediaelement.default(this.params);
       this.backend.init();
-      this.fireEvent('backend-created', this.backend); // REMOVED event subscriptions from backend audio
-
-      /*
-      this.backend.on('finish', () => this.fireEvent('finish'));
-      this.backend.on('play', () => this.fireEvent('play'));
-      this.backend.on('pause', () => this.fireEvent('pause'));
-      this.backend.on('audioprocess', time => {
-          this.drawer.progress(this.backend.getPlayedPercents());
-          this.fireEvent('audioprocess', time);
-      });
-      */
-    } // Removed creation of a peak cache
-
-    /**
-     * Create the peak cache
-     *
-     * @private
-     */
-
-    /*
-    createPeakCache() {
-        if (this.params.partialRender) {
-            this.peakCache = new PeakCache();
-        }
+      this.fireEvent('backend-created', this.backend);
     }
-    */
-
     /**
      * Get the duration of the audio clip
      *
@@ -2476,123 +2340,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       } else {
         this.seekTo(seconds / this.getDuration());
       }
-    } // REMOVED Play functionality
-
-    /**
-     * Starts playback from the current position. Optional start and end
-     * measured in seconds can be used to set the range of audio to play.
-     *
-     * @param {?number} start Position to start at
-     * @param {?number} end Position to end at
-     * @emits SlimSurfer#interaction
-     * @return {Promise}
-     * @example
-     * // play from second 1 to 5
-     * slimsurfer.play(1, 5);
-     */
-
-    /*
-    play(start, end) {
-        // Disabled interaction event
-        // this.fireEvent('interaction', () => this.play(start, end));
-        return this.backend.play(start, end);
     }
-    */
-    // REMOVED Pause functionality
-
-    /**
-     * Stops playback
-     *
-     * @example slimsurfer.pause();
-     * @return {Promise}
-     */
-
-    /*
-    pause() {
-        if (!this.backend.isPaused()) {
-            return this.backend.pause();
-        }
-    }
-    */
-    // REMOVED toggling playback functionality
-
-    /**
-     * Toggle playback
-     *
-     * @example slimsurfer.playPause();
-     * @return {Promise}
-     */
-
-    /*
-    playPause() {
-        return this.backend.isPaused() ? this.play() : this.pause();
-    }
-    */
-    // REMOVED getting playback state
-
-    /**
-     * Get the current playback state
-     *
-     * @example const isPlaying = slimsurfer.isPlaying();
-     * @return {boolean} False if paused, true if playing
-     */
-
-    /*
-    isPlaying() {
-        return !this.backend.isPaused();
-    }
-    */
-    // REMOVED skipping backwards
-
-    /**
-     * Skip backward
-     *
-     * @param {?number} seconds Amount to skip back, if not specified `skipLength`
-     * is used
-     * @example slimsurfer.skipBackward();
-     */
-
-    /*
-    skipBackward(seconds) {
-        this.skip(-seconds || -this.params.skipLength);
-    }
-    */
-    // REMOVED skipping forwards
-
-    /**
-     * Skip forward
-     *
-     * @param {?number} seconds Amount to skip back, if not specified `skipLength`
-     * is used
-     * @example slimsurfer.skipForward();
-     */
-
-    /*
-    skipForward(seconds) {
-        this.skip(seconds || this.params.skipLength);
-    }
-    */
-    // REMOVED skipping
-
-    /**
-     * Skip a number of seconds from the current position (use a negative value
-     * to go backwards).
-     *
-     * @param {number} offset Amount to skip back or forwards
-     * @example
-     * // go back 2 seconds
-     * slimsurfer.skip(-2);
-     */
-
-    /*
-    skip(offset) {
-        const duration = this.getDuration() || 1;
-        let position = this.getCurrentTime() || 0;
-        position = Math.max(0, Math.min(duration, position + (offset || 0)));
-        this.seekAndCenter(position / duration);
-    }
-    */
-
     /**
      * Seeks to a position and centers the view
      *
@@ -2626,185 +2374,16 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       if (typeof progress !== 'number' || !isFinite(progress) || progress < 0 || progress > 1) {
         return console.error('');
         /*'Error calling slimsurfer.seekTo, parameter must be a number between 0 and 1!'*/
-      } // REMOVED interaction event
-      // this.fireEvent('interaction', () => this.seekTo(progress));
-      // REMOVED pausing before seeking
-
-      /*
-      const paused = this.backend.isPaused();
-      // avoid draw wrong position while playing backward seeking
-      if (!paused) {
-          this.backend.pause();
-      }
-      */
-      // avoid small scrolls while paused seeking
+      } // avoid small scrolls while paused seeking
 
 
       var oldScrollParent = this.params.scrollParent;
       this.params.scrollParent = false;
       this.backend.seekTo(progress * this.getDuration());
-      this.drawer.progress(progress); // REMOVED playing after seeking
-
-      /*
-      if (!paused) {
-          this.backend.play();
-      }
-      */
-
+      this.drawer.progress(progress);
       this.params.scrollParent = oldScrollParent;
       this.fireEvent('seek', progress);
-    } // REMOVED Stop functionality
-
-    /**
-     * Stops and goes to the beginning.
-     *
-     * @example slimsurfer.stop();
-     */
-
-    /*
-    stop() {
-        this.pause();
-        this.seekTo(0);
-        this.drawer.progress(0);
     }
-    */
-    // Removed setting current volume device
-
-    /**
-     * Set the playback volume.
-     *
-     * @param {string} deviceId String value representing underlying output device
-     */
-
-    /*
-    setSinkId(deviceId) {
-        return this.backend.setSinkId(deviceId);
-    }*/
-    // Removed setting current volume
-
-    /**
-     * Set the playback volume.
-     *
-     * @param {number} newVolume A value between 0 and 1, 0 being no
-     * volume and 1 being full volume.
-     * @emits SlimSurfer#volume
-     */
-
-    /*
-    setVolume(newVolume) {
-        this.backend.setVolume(newVolume);
-        this.fireEvent('volume', newVolume);
-    }*/
-    // Removed getting current volume
-
-    /**
-     * Get the playback volume.
-     *
-     * @return {number} A value between 0 and 1, 0 being no
-     * volume and 1 being full volume.
-     */
-
-    /*
-    getVolume() {
-        return this.backend.getVolume();
-    }
-    */
-    // Removed setting playback rate
-
-    /**
-     * Set the playback rate.
-     *
-     * @param {number} rate A positive number. E.g. 0.5 means half the normal
-     * speed, 2 means double speed and so on.
-     * @example slimsurfer.setPlaybackRate(2);
-     */
-
-    /*
-    setPlaybackRate(rate) {
-        this.backend.setPlaybackRate(rate);
-    }
-    */
-    // Removed getting playback rate
-
-    /**
-     * Get the playback rate.
-     *
-     * @return {number}
-     */
-
-    /*
-    getPlaybackRate() {
-        return this.backend.getPlaybackRate();
-    }
-    */
-    // Removed toggling volume
-
-    /**
-     * Toggle the volume on and off. It not currenly muted it will save the
-     * current volume value and turn the volume off. If currently muted then it
-     * will restore the volume to the saved value, and then rest the saved
-     * value.
-     *
-     * @example slimsurfer.toggleMute();
-     */
-
-    /*
-    toggleMute() {
-        this.setMute(!this.isMuted);
-    }
-    */
-    // Removed toggling mute
-
-    /**
-     * Enable or disable muted audio
-     *
-     * @param {boolean} mute
-     * @emits SlimSurfer#volume
-     * @emits SlimSurfer#mute
-     * @example
-     * // unmute
-     * slimsurfer.setMute(false);
-     */
-
-    /*
-    setMute(mute) {
-        // ignore all muting requests if the audio is already in that state
-        if (mute === this.isMuted) {
-            this.fireEvent('mute', this.isMuted);
-            return;
-        }
-         if (mute) {
-            // If currently not muted then save current volume,
-            // turn off the volume and update the mute properties
-            this.savedVolume = this.backend.getVolume();
-            this.backend.setVolume(0);
-            this.isMuted = true;
-            this.fireEvent('volume', 0);
-        } else {
-            // If currently muted then restore to the saved volume
-            // and update the mute properties
-            this.backend.setVolume(this.savedVolume);
-            this.isMuted = false;
-            this.fireEvent('volume', this.savedVolume);
-        }
-        this.fireEvent('mute', this.isMuted);
-    }
-    */
-    // Removed getting mute status
-
-    /**
-     * Get the current mute status.
-     *
-     * @example const isMuted = slimsurfer.getMute();
-     * @return {boolean}
-     */
-
-    /*
-    getMute() {
-        return this.isMuted;
-    }
-    */
-
     /**
      * Get the current ready status.
      *
@@ -2816,22 +2395,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
     key: "isReady",
     value: function isReady() {
       return this.isReady;
-    } // Removed getting list of current filters bc we dont need filters
-
-    /**
-     * Get the list of current set filters as an array.
-     *
-     * Filters must be set with setFilters method first
-     *
-     * @return {array}
-     */
-
-    /*
-    getFilters() {
-        return this.backend.filters || [];
     }
-    */
-
     /**
      * Toggles `scrollParent` and redraws
      *
@@ -2964,7 +2528,6 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
   }, {
     key: "drawBuffer",
     value: function drawBuffer() {
-      // console.log('Drawing buffer');
       var nominalWidth = Math.round(this.getDuration() * this.params.minPxPerSec * this.params.pixelRatio);
       var parentWidth = this.drawer.getWidth();
       var width = nominalWidth;
@@ -2977,36 +2540,9 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
         end = width;
       }
 
-      var peaks; // Removed chunked getPeaks for partialRender
-
-      /*
-      if (this.params.partialRender) {
-          const newRanges = this.peakCache.addRangeToPeakCache(
-              width,
-              start,
-              end
-          );
-          let i;
-          for (i = 0; i < newRanges.length; i++) {
-              peaks = this.backend.getPeaks(
-                  width,
-                  newRanges[i][0],
-                  newRanges[i][1]
-              );
-              this.drawer.drawPeaks(
-                  peaks,
-                  width,
-                  newRanges[i][0],
-                  newRanges[i][1]
-              );
-          }
-      }
-      */
-      //else {
-
+      var peaks;
       peaks = this.backend.getPeaks(width, start, end);
-      this.drawer.drawPeaks(peaks, width, start, end); //}
-
+      this.drawer.drawPeaks(peaks, width, start, end);
       this.fireEvent('redraw', peaks, width);
     }
     /**
@@ -3035,164 +2571,24 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       this.drawer.progress(this.backend.getPlayedPercents());
       this.drawer.recenter(this.getCurrentTime() / this.getDuration());
       this.fireEvent('zoom', pxPerSec);
-    } // Removed decoding and loading audio buffer
-
-    /**
-     * Decode buffer and load
-     *
-     * @private
-     * @param {ArrayBuffer} arraybuffer
-     */
-
-    /*
-    loadArrayBuffer(arraybuffer) {
-        this.decodeArrayBuffer(arraybuffer, data => {
-            if (!this.isDestroyed) {
-                this.loadDecodedBuffer(data);
-            }
-        });
     }
-    */
-    // Removed loading an audiobuffer directly
-
-    /**
-     * Directly load an externally decoded AudioBuffer
-     *
-     * @private
-     * @param {AudioBuffer} buffer
-     * @emits SlimSurfer#ready
-     */
-
-    /*
-    loadDecodedBuffer(buffer) {
-        this.backend.load(buffer);
-        this.drawBuffer();
-        this.fireEvent('ready');
-        this.isReady = true;
-    }
-    */
-    // Removed loading audio from blob or file object
-
-    /**
-     * Loads audio data from a Blob or File object
-     *
-     * @param {Blob|File} blob Audio data
-     * @example
-     */
-
-    /*
-    loadBlob(blob) {
-        // Create file reader
-        const reader = new FileReader();
-        reader.addEventListener('progress', e => this.onProgress(e));
-        reader.addEventListener('load', e =>
-            this.loadArrayBuffer(e.target.result)
-        );
-        reader.addEventListener('error', () =>
-            this.fireEvent('error', 'Error reading file')
-        );
-        reader.readAsArrayBuffer(blob);
-        this.empty();
-    }
-    */
-
     /**
      * Loads audio and re-renders the waveform.
      *
-     * @param {string|HTMLMediaElement} url The url of the audio file or the
-     * audio element with the audio
      * @param {?number[]|number[][]} peaks Wavesurfer does not have to decode
      * the audio to render the waveform if this is specified
-     * @param {?string} preload (Use with backend `MediaElement`)
-     * `'none'|'metadata'|'auto'` Preload attribute for the media element
      * @param {?number} duration The duration of the audio. This is used to
      * render the peaks data in the correct size for the audio duration (as
      * befits the current minPxPerSec and zoom value) without having to decode
      * the audio.
-     * @example
-     * // using ajax or media element to load (depending on backend)
-     * slimsurfer.load('http://example.com/demo.wav');
-     *
-     * // setting preload attribute with media element backend and supplying
-     * peaks slimsurfer.load(
-     *   'http://example.com/demo.wav',
-     *   [0.0218, 0.0183, 0.0165, 0.0198, 0.2137, 0.2888],
-     *   true,
-     * );
      */
-    //load(url, peaks, preload, duration) {
 
   }, {
     key: "load",
     value: function load(peaks, duration) {
-      this.empty(); // Removed checks if preload is valid or not
-
-      /*
-      if (preload) {
-          // check whether the preload attribute will be usable and if not log
-          // a warning listing the reasons why not and nullify the variable
-          const preloadIgnoreReasons = {
-              "Preload is not 'auto', 'none' or 'metadata'":
-                  ['auto', 'metadata', 'none'].indexOf(preload) === -1,
-              'Peaks are not provided': !peaks,
-              'Backend is not of type MediaElement':
-                  this.params.backend !== 'MediaElement',
-              'Url is not of type string': typeof url !== 'string'
-          };
-          const activeReasons = Object.keys(preloadIgnoreReasons).filter(
-              reason => preloadIgnoreReasons[reason]
-          );
-          if (activeReasons.length) {
-              console.warn(
-                  'Preload parameter of slimsurfer.load will be ignored because:\n\t- ' +
-                      activeReasons.join('\n\t- ')
-              );
-              // stop invalid values from being used
-              preload = null;
-          }
-      }
-      */
-      //this.loadMediaElement(url, peaks, preload, duration);
-
-      return this.loadMediaElement(peaks, duration); // Removed switching of the backend
-
-      /*
-      switch (this.params.backend) {
-          case 'WebAudio':
-              return this.loadBuffer(url, peaks, duration);
-          case 'MediaElement':
-              return this.loadMediaElement(url, peaks, preload, duration);
-      }
-      */
-    } // Removed loading using web audio buffer backend
-
-    /**
-     * Loads audio using Web Audio buffer backend.
-     *
-     * @private
-     * @param {string} url
-     * @param {?number[]|number[][]} peaks
-     * @param {?number} duration
-     */
-
-    /*
-    loadBuffer(url, peaks, duration) {
-        const load = action => {
-            if (action) {
-                this.tmpEvents.push(this.once('ready', action));
-            }
-            return this.getArrayBuffer(url, data => this.loadArrayBuffer(data));
-        };
-         if (peaks) {
-            this.backend.setPeaks(peaks, duration);
-            this.drawBuffer();
-            this.tmpEvents.push(this.once('interaction', load));
-        } else {
-            return load();
-        }
+      this.empty();
+      return this.loadMediaElement(peaks, duration);
     }
-    */
-
     /**
      * Either create a media element, or load an existing media element.
      *
@@ -3205,38 +2601,10 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
      * audio element should be enabled
      * @param {?number} duration
      */
-    //loadMediaElement(urlOrElt, peaks, preload, duration) {
 
   }, {
     key: "loadMediaElement",
     value: function loadMediaElement(peaks, duration) {
-      // TODO: MediaElement.load function has to be altered
-      //this.backend.load(this.mediaContainer, peaks, duration);
-      // REMOVED loading audio from url or setting peaks for existing Elt
-
-      /*
-      let url = urlOrElt;
-      if (typeof urlOrElt === 'string') {
-          this.backend.load(url, this.mediaContainer, peaks, preload);
-      } else {
-          const elt = urlOrElt;
-          this.backend.loadElt(elt, peaks);
-           // If peaks are not provided,
-          // url = element.src so we can get peaks with web audio
-          url = elt.src;
-      }
-      */
-
-      /*
-      this.tmpEvents.push(
-          this.backend.once('canplay', () => {
-              this.drawBuffer();
-              this.fireEvent('ready');
-              this.isReady = true;
-          }),
-          this.backend.once('error', err => this.fireEvent('error', err))
-      );
-      */
       // If no pre-decoded peaks provided or pre-decoded peaks are
       // provided with forceDecode flag, attempt to download the
       // audio file and decode it with Web Audio.
@@ -3245,182 +2613,8 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
         this.drawBuffer();
         this.fireEvent('ready');
         this.isReady = true;
-      } // Removed downloading audio file and decoding
-
-      /*
-      if (
-          (!peaks || this.params.forceDecode) &&
-          this.backend.supportsWebAudio()
-      ) {
-          this.getArrayBuffer(url, arraybuffer => {
-              this.decodeArrayBuffer(arraybuffer, buffer => {
-                  this.backend.buffer = buffer;
-                  this.backend.setPeaks(null);
-                  this.drawBuffer();
-                  this.fireEvent('waveform-ready');
-              });
-          });
       }
-      */
-
-    } // Removed decoding of array buffer
-
-    /**
-     * Decode an array buffer and pass data to a callback
-     *
-     * @private
-     * @param {Object} arraybuffer
-     * @param {function} callback
-     */
-
-    /*
-    decodeArrayBuffer(arraybuffer, callback) {
-        this.arraybuffer = arraybuffer;
-         this.backend.decodeArrayBuffer(
-            arraybuffer,
-            data => {
-                // Only use the decoded data if we haven't been destroyed or
-                // another decode started in the meantime
-                if (!this.isDestroyed && this.arraybuffer == arraybuffer) {
-                    callback(data);
-                    this.arraybuffer = null;
-                }
-            },
-            () => this.fireEvent('error', 'Error decoding audiobuffer')
-        );
     }
-    */
-    // Removed loading via ajax
-
-    /**
-     * Load an array buffer by ajax and pass to a callback
-     *
-     * @param {string} url
-     * @param {function} callback
-     * @private
-     */
-
-    /*
-    getArrayBuffer(url, callback) {
-        const ajax = util.ajax({
-            url: url,
-            responseType: 'arraybuffer',
-            xhr: this.params.xhr
-        });
-         this.currentAjax = ajax;
-         this.tmpEvents.push(
-            ajax.on('progress', e => {
-                this.onProgress(e);
-            }),
-            ajax.on('success', (data, e) => {
-                callback(data);
-                this.currentAjax = null;
-            }),
-            ajax.on('error', e => {
-                this.fireEvent('error', 'XHR error: ' + e.target.statusText);
-                this.currentAjax = null;
-            })
-        );
-         return ajax;
-    }
-    */
-    // Removed loading progress event since there is no loading of file
-
-    /**
-     * Called while the audio file is loading
-     *
-     * @private
-     * @param {Event} e
-     * @emits SlimSurfer#loading
-     */
-
-    /*
-    onProgress(e) {
-        let percentComplete;
-        if (e.lengthComputable) {
-            percentComplete = e.loaded / e.total;
-        } else {
-            // Approximate progress with an asymptotic
-            // function, and assume downloads in the 1-3 MB range.
-            percentComplete = e.loaded / (e.loaded + 1000000);
-        }
-        this.fireEvent('loading', Math.round(percentComplete * 100), e.target);
-    }
-    */
-    // Removed exporting pcm data as json array
-
-    /**
-     * Exports PCM data into a JSON array and opens in a new window.
-     *
-     * @param {number} length=1024 The scale in which to export the peaks. (Integer)
-     * @param {number} accuracy=10000 (Integer)
-     * @param {?boolean} noWindow Set to true to disable opening a new
-     * window with the JSON
-     * @param {number} start
-     * @todo Update exportPCM to work with new getPeaks signature
-     * @return {string} JSON of peaks
-     */
-
-    /*
-    exportPCM(length, accuracy, noWindow, start) {
-        length = length || 1024;
-        start = start || 0;
-        accuracy = accuracy || 10000;
-        noWindow = noWindow || false;
-        const peaks = this.backend.getPeaks(length, start);
-        const arr = [].map.call(
-            peaks,
-            val => Math.round(val * accuracy) / accuracy
-        );
-        const json = JSON.stringify(arr);
-        if (!noWindow) {
-            window.open(
-                'data:application/json;charset=utf-8,' +
-                    encodeURIComponent(json)
-            );
-        }
-        return json;
-    }
-    */
-    // Removed saving waveform as image
-
-    /**
-     * Save waveform image as data URI.
-     *
-     * The default format is `image/png`. Other supported types are
-     * `image/jpeg` and `image/webp`.
-     *
-     * @param {string} format='image/png'
-     * @param {number} quality=1
-     * @return {string} data URI of image
-     */
-
-    /*
-    exportImage(format, quality) {
-        if (!format) {
-            format = 'image/png';
-        }
-        if (!quality) {
-            quality = 1;
-        }
-         return this.drawer.getImage(format, quality);
-    }
-    */
-    // Removed cancellation of ajax requests
-
-    /**
-     * Cancel any ajax request currently in progress
-     */
-
-    /*
-    cancelAjax() {
-        if (this.currentAjax) {
-            this.currentAjax.xhr.abort();
-            this.currentAjax = null;
-        }
-    }
-    */
-
     /**
      * @private
      */
@@ -3431,8 +2625,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
       this.tmpEvents.forEach(function (e) {
         return e.un();
       });
-    } // TODO: Check arguments of this.drawer.drawPeaks()
-
+    }
     /**
      * Display empty waveform.
      */
@@ -3440,16 +2633,7 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
   }, {
     key: "empty",
     value: function empty() {
-      // REMOVED Check if backend is playing
-
-      /*
-      if (!this.backend.isPaused()) {
-          this.stop();
-          this.backend.disconnectSource();
-      }
-      */
-      this.isReady = false; //this.cancelAjax();
-
+      this.isReady = false;
       this.clearTmpEvents();
       this.drawer.progress(0);
       this.drawer.setWidth(0);
@@ -3467,27 +2651,15 @@ var SlimSurfer = /*#__PURE__*/function (_util$Observer) {
     key: "destroy",
     value: function destroy() {
       this.destroyAllPlugins();
-      this.fireEvent('destroy'); //this.cancelAjax();
-
+      this.fireEvent('destroy');
       this.clearTmpEvents();
       this.unAll();
-      /*
-      if (this.params.responsive !== false) {
-          window.removeEventListener('resize', this._onResize, true);
-          window.removeEventListener(
-              'orientationchange',
-              this._onResize,
-              true
-          );
-      };
-      */
-
       window.removeEventListener('resize', this._onResize, true);
       window.removeEventListener('orientationchange', this._onResize, true);
       this.backend.destroy();
       this.drawer.destroy();
       this.isDestroyed = true;
-      this.isReady = false; //this.arraybuffer = null;
+      this.isReady = false;
     }
   }]);
 
