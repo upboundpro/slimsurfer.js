@@ -1,9 +1,9 @@
 # slimsurfer.js
 
 Slim, interactive navigable audio visualization using Web Audio and Canvas based on
-[slimsurfer.js](https://slimsurfer-js.org). This version does **not** handle audio streaming and playback and is designed to fast rendering of waveforms using **pre-generated peak data**!
+[wavesurfer.js](https://wavesurfer-js.org). This version does **not** handle audio streaming and playback and is designed to fast rendering of waveforms using **pre-generated peak data**!
 
-See a [tutorial](https://slimsurfer-js.org/docs) and [examples](https://slimsurfer-js.org/examples) on [slimsurfer-js.org](https://slimsurfer-js.org).
+See a [tutorial](https://wavesurfer-js.org/docs) and [examples](https://wavesurfer-js.org/examples) on [slimsurfer-js.org](https://wavesurfer-js.org).
 
 ### Installation for development
 Install development dependencies:
@@ -46,7 +46,7 @@ npm run doc
 
 Many thanks to the original authors
 [katspaugh](https://github.com/katspaugh) and 
-[contributors](https://github.com/katspaugh/slimsurfer.js/contributors)!
+[contributors](https://github.com/katspaugh/wavesurfer.js/contributors)!
 
 ## License
 
