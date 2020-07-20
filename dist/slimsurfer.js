@@ -1299,24 +1299,7 @@ var MultiCanvas = /*#__PURE__*/function (_Drawer) {
       if (this.hasProgressCanvas) {
         entry.progressCtx.fillStyle = this.params.progressColor;
       }
-    } // REMOVED: Get image data of the waveform
-
-    /**
-     * Return image data of the waveform
-     *
-     * @param {string} type='image/png' An optional value of a format type.
-     * @param {number} quality=0.92 An optional value between 0 and 1.
-     * @return {string|string[]} images A data URL or an array of data URLs
-     */
-
-    /*
-    getImage(type, quality) {
-        const images = this.canvases.map(entry =>
-            entry.wave.toDataURL(type, quality)
-        );
-        return images.length > 1 ? images : images[0];
     }
-    */
 
     /**
      * Render the new progress
@@ -1592,30 +1575,8 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       });
       this.media = media;
       this.peaks = peaks;
-      this.onPlayEnd = null; //this.buffer = null;
-      //this.setPlaybackRate(this.playbackRate);
-      //this.setVolume(this.volume);
-    } // REMOVED isPaused()
-
-    /**
-     * Used by `slimsurfer.isPlaying()` and `slimsurfer.playPause()`
-     *
-     * @return {boolean}
-     */
-
-    /*
-    isPaused() {
-        return !this.media || this.media.paused;
+      this.onPlayEnd = null;
     }
-    */
-    // TODO: Get explicitDuration (in seconds?) as number
-
-    /**
-     * Used by `slimsurfer.getDuration()`
-     *
-     * @return {number}
-     */
-
   }, {
     key: "getDuration",
     value: function getDuration() {
@@ -1656,40 +1617,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
     key: "getPlayedPercents",
     value: function getPlayedPercents() {
       return this.getCurrentTime() / this.getDuration() || 0;
-    } // REMOVED getPlaybackRate()
-
-    /**
-     * Get the audio source playback rate.
-     *
-     * @return {number}
-     */
-
-    /*
-    getPlaybackRate() {
-        return this.playbackRate || this.media.playbackRate;
     }
-    */
-    // REMOVED setPlaybackRate()
-
-    /**
-     * Set the audio source playback rate.
-     *
-     * @param {number} value
-     */
-
-    /*
-    setPlaybackRate(value) {
-        this.playbackRate = value || 1;
-        this.media.playbackRate = this.playbackRate;
-    }
-    */
-
-    /**
-     * Used by `slimsurfer.seekTo()`
-     *
-     * @param {number} start Position to start at in seconds
-     */
-
   }, {
     key: "seekTo",
     value: function seekTo(start) {
@@ -1698,48 +1626,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       }
 
       this.clearPlayEnd();
-    } // REMOVED playing of audio
-
-    /**
-     * Plays the loaded audio region.
-     *
-     * @param {number} start Start offset in seconds, relative to the beginning
-     * of a clip.
-     * @param {number} end When to stop, relative to the beginning of a clip.
-     * @emits MediaElement#play
-     * @return {Promise}
-     */
-
-    /*
-    play(start, end) {
-        this.seekTo(start);
-        const promise = this.media.play();
-        end && this.setPlayEnd(end);
-         return promise;
     }
-    */
-    // REMOVED pausing audio
-
-    /**
-     * Pauses the loaded audio.
-     *
-     * @emits MediaElement#pause
-     * @return {Promise}
-     */
-
-    /*
-    pause() {
-        let promise;
-         if (this.media) {
-            promise = this.media.pause();
-        }
-        this.clearPlayEnd();
-         return promise;
-    }
-    */
-
-    /** @private */
-
   }, {
     key: "setPlayEnd",
     value: function setPlayEnd(end) {
@@ -1755,7 +1642,6 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
 
       this.on('audioprocess', this._onPlayEnd);
     }
-    /** @private */
 
   }, {
     key: "clearPlayEnd",
@@ -1784,60 +1670,7 @@ var MediaElement = /*#__PURE__*/function (_util$Observer) {
       }
 
       return this.peaks || [];
-    } // REMOVED setSinkId() since slimsurfer should not play audio
-
-    /**
-     * Set the sink id for the media player
-     *
-     * @param {string} deviceId String value representing audio device id.
-     */
-
-    /*
-    setSinkId(deviceId) {
-        if (deviceId) {
-            if (!this.media.setSinkId) {
-                return Promise.reject(
-                    new Error('setSinkId is not supported in your browser')
-                );
-            }
-            return this.media.setSinkId(deviceId);
-        }
-         return Promise.reject(new Error('Invalid deviceId: ' + deviceId));
     }
-    */
-    // REMOVED getting volume
-
-    /**
-     * Get the current volume
-     *
-     * @return {number} value A floating point value between 0 and 1.
-     */
-
-    /*
-    getVolume() {
-        return this.volume || this.media.volume;
-    }
-    */
-    // REMOVED setting audio volume
-
-    /**
-     * Set the audio volume
-     *
-     * @param {number} value A floating point value between 0 and 1.
-     */
-
-    /*
-    setVolume(value) {
-        this.volume = value;
-        this.media.volume = this.volume;
-    }
-    */
-
-    /**
-     * This is called when slimsurfer is destroyed
-     *
-     */
-
   }, {
     key: "destroy",
     value: function destroy() {

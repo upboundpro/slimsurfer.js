@@ -62,7 +62,6 @@ export default class Drawer extends util.Observer {
             position: 'relative',
             userSelect: 'none',
             webkitUserSelect: 'none',
-            //height: this.params.height + 'px'
             height: '100%'
         });
 

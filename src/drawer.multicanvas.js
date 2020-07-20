@@ -161,7 +161,6 @@ export default class MultiCanvas extends Drawer {
         if (this.hasProgressCanvas) {
             entry.progress = this.progressWave.appendChild(
                 this.style(document.createElement('canvas'), {
-                    //position: 'absolute',
                     position: 'relative',
                     left: leftOffset + 'px',
                     top: 0,
@@ -600,23 +599,6 @@ export default class MultiCanvas extends Drawer {
             entry.progressCtx.fillStyle = this.params.progressColor;
         }
     }
-
-    // REMOVED: Get image data of the waveform
-    /**
-     * Return image data of the waveform
-     *
-     * @param {string} type='image/png' An optional value of a format type.
-     * @param {number} quality=0.92 An optional value between 0 and 1.
-     * @return {string|string[]} images A data URL or an array of data URLs
-     */
-    /*
-    getImage(type, quality) {
-        const images = this.canvases.map(entry =>
-            entry.wave.toDataURL(type, quality)
-        );
-        return images.length > 1 ? images : images[0];
-    }
-    */
 
     /**
      * Render the new progress

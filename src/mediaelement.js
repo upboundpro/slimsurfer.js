@@ -1,4 +1,3 @@
-//import WebAudio from './webaudio';
 import * as util from './util';
 
 /**
@@ -20,11 +19,6 @@ export default class MediaElement extends util.Observer {
         this.media = {
             currentTime: 0,
             duration: 0
-            //paused: true,
-            //playbackRate: 1,
-            //play() {},
-            //pause() {}
-            //volume: 0
         };
 
         /** @private */
@@ -33,17 +27,6 @@ export default class MediaElement extends util.Observer {
         this.elementPosition = params.elementPosition;
         /** @private */
         this.peaks = null;
-        // Removed playback rate variable
-        /** @private */
-        //this.playbackRate = 1;
-        // Removed volume variable
-        /** @private */
-        //this.volume = 1;
-
-        // Removed buffer variable
-        /** @private */
-        //this.buffer = null;
-
         /** @private */
         this.onPlayEnd = null;
     }
@@ -52,8 +35,6 @@ export default class MediaElement extends util.Observer {
      * Initialise the backend, called in `slimsurfer.createBackend()`
      */
     init() {
-        //this.setPlaybackRate(this.params.audioRate);
-        //this.setPlaybackRate(this.playbackRate);
         this.createTimer();
     }
 
@@ -104,7 +85,6 @@ export default class MediaElement extends util.Observer {
      * @param {number[]|number[][]} peaks Array of peak data
      * @param {string} preload HTML 5 preload attribute value
      */
-    //load(url, container, peaks, preload) {
     load(container, peaks, duration) {
         const media = document.createElement(this.mediaType);
         media.controls = this.params.mediaControls;
@@ -123,22 +103,6 @@ export default class MediaElement extends util.Observer {
 
         this._load(media, peaks);
     }
-
-    // Removed loading of existing audio element using loadElt()
-    /**
-     * Load existing media element.
-     *
-     * @param {HTMLMediaElement} elt HTML5 Audio or Video element
-     * @param {number[]|number[][]} peaks Array of peak data
-     */
-    /*
-    loadElt(elt, peaks) {
-        elt.controls = this.params.mediaControls;
-        elt.autoplay = this.params.autoplay || false;
-
-        this._load(elt, peaks);
-    }
-    */
 
     /**
      * Private method called by both load (from url)
@@ -183,24 +147,8 @@ export default class MediaElement extends util.Observer {
         this.media = media;
         this.peaks = peaks;
         this.onPlayEnd = null;
-        //this.buffer = null;
-        //this.setPlaybackRate(this.playbackRate);
-        //this.setVolume(this.volume);
     }
 
-    // REMOVED isPaused()
-    /**
-     * Used by `slimsurfer.isPlaying()` and `slimsurfer.playPause()`
-     *
-     * @return {boolean}
-     */
-    /*
-    isPaused() {
-        return !this.media || this.media.paused;
-    }
-    */
-
-    // TODO: Get explicitDuration (in seconds?) as number
     /**
      * Used by `slimsurfer.getDuration()`
      *
@@ -218,7 +166,6 @@ export default class MediaElement extends util.Observer {
         return duration;
     }
 
-    // TODO: Handle current time
     /**
      * Returns the current time in seconds relative to the audioclip's
      * duration.
@@ -229,7 +176,6 @@ export default class MediaElement extends util.Observer {
         return this.media && this.media.currentTime;
     }
 
-    // TODO: Handle played percents
     /**
      * Get the position from 0 to 1
      *
@@ -238,31 +184,6 @@ export default class MediaElement extends util.Observer {
     getPlayedPercents() {
         return this.getCurrentTime() / this.getDuration() || 0;
     }
-
-    // REMOVED getPlaybackRate()
-    /**
-     * Get the audio source playback rate.
-     *
-     * @return {number}
-     */
-    /*
-    getPlaybackRate() {
-        return this.playbackRate || this.media.playbackRate;
-    }
-    */
-
-    // REMOVED setPlaybackRate()
-    /**
-     * Set the audio source playback rate.
-     *
-     * @param {number} value
-     */
-    /*
-    setPlaybackRate(value) {
-        this.playbackRate = value || 1;
-        this.media.playbackRate = this.playbackRate;
-    }
-    */
 
     /**
      * Used by `slimsurfer.seekTo()`
@@ -275,46 +196,6 @@ export default class MediaElement extends util.Observer {
         }
         this.clearPlayEnd();
     }
-
-    // REMOVED playing of audio
-    /**
-     * Plays the loaded audio region.
-     *
-     * @param {number} start Start offset in seconds, relative to the beginning
-     * of a clip.
-     * @param {number} end When to stop, relative to the beginning of a clip.
-     * @emits MediaElement#play
-     * @return {Promise}
-     */
-    /*
-    play(start, end) {
-        this.seekTo(start);
-        const promise = this.media.play();
-        end && this.setPlayEnd(end);
-
-        return promise;
-    }
-    */
-
-    // REMOVED pausing audio
-    /**
-     * Pauses the loaded audio.
-     *
-     * @emits MediaElement#pause
-     * @return {Promise}
-     */
-    /*
-    pause() {
-        let promise;
-
-        if (this.media) {
-            promise = this.media.pause();
-        }
-        this.clearPlayEnd();
-
-        return promise;
-    }
-    */
 
     /** @private */
     setPlayEnd(end) {
@@ -352,58 +233,11 @@ export default class MediaElement extends util.Observer {
         return this.peaks || [];
     }
 
-    // REMOVED setSinkId() since slimsurfer should not play audio
-    /**
-     * Set the sink id for the media player
-     *
-     * @param {string} deviceId String value representing audio device id.
-     */
-    /*
-    setSinkId(deviceId) {
-        if (deviceId) {
-            if (!this.media.setSinkId) {
-                return Promise.reject(
-                    new Error('setSinkId is not supported in your browser')
-                );
-            }
-            return this.media.setSinkId(deviceId);
-        }
-
-        return Promise.reject(new Error('Invalid deviceId: ' + deviceId));
-    }
-    */
-
-    // REMOVED getting volume
-    /**
-     * Get the current volume
-     *
-     * @return {number} value A floating point value between 0 and 1.
-     */
-    /*
-    getVolume() {
-        return this.volume || this.media.volume;
-    }
-    */
-
-    // REMOVED setting audio volume
-    /**
-     * Set the audio volume
-     *
-     * @param {number} value A floating point value between 0 and 1.
-     */
-    /*
-    setVolume(value) {
-        this.volume = value;
-        this.media.volume = this.volume;
-    }
-    */
-
     /**
      * This is called when slimsurfer is destroyed
      *
      */
     destroy() {
-        //this.pause();
         this.unAll();
 
         if (

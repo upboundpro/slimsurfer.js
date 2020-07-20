@@ -66,10 +66,8 @@ export default class WebAudio extends util.Observer {
         super();
         /** @private */
         this.params = params;
-        // Removed Audio Context
-        
         /**@private */
-        this.lastPlay = this.ac.currentTime; // TODO: Get the time without audio backend
+        this.lastPlay = this.ac.currentTime;
         /** @private */
         this.startPosition = 0;
         /** @private  */
@@ -230,82 +228,6 @@ export default class WebAudio extends util.Observer {
         this.analyser.connect(this.gainNode);
     }
 
-    // Removed volume node
-    /**
-     * Create the gain node needed to control the playback volume.
-     *
-     * @private
-     */
-    /*
-    createVolumeNode() {
-        // Create gain node using the AudioContext
-        if (this.ac.createGain) {
-            this.gainNode = this.ac.createGain();
-        } else {
-            this.gainNode = this.ac.createGainNode();
-        }
-        // Add the gain node to the graph
-        this.gainNode.connect(this.ac.destination);
-    }
-    */
-
-    // Removed setting of sink ID
-    /**
-     * Set the sink id for the media player
-     *
-     * @param {string} deviceId String value representing audio device id.
-     */
-    /*
-    setSinkId(deviceId) {
-        if (deviceId) {
-
-            // The webaudio API doesn't currently support setting the device
-            // output. Here we create an HTMLAudioElement, connect the
-            // webaudio stream to that element and setSinkId there.
-
-            let audio = new window.Audio();
-            if (!audio.setSinkId) {
-                return Promise.reject(
-                    new Error('setSinkId is not supported in your browser')
-                );
-            }
-            audio.autoplay = true;
-            var dest = this.ac.createMediaStreamDestination();
-            this.gainNode.disconnect();
-            this.gainNode.connect(dest);
-            audio.srcObject = dest.stream;
-
-            return audio.setSinkId(deviceId);
-        } else {
-            return Promise.reject(new Error('Invalid deviceId: ' + deviceId));
-        }
-    }
-    */
-
-    // Removed setting of audio volume
-    /**
-     * Set the audio volume
-     *
-     * @param {number} value A floating point value between 0 and 1.
-     */
-    /*
-    setVolume(value) {
-        this.gainNode.gain.setValueAtTime(value, this.ac.currentTime);
-    }
-    */
-
-    // Removed getting of audio volume
-    /**
-     * Get the current volume
-     *
-     * @return {number} value A floating point value between 0 and 1.
-     */
-    /*
-    getVolume() {
-        return this.gainNode.gain.value;
-    }
-    */
-
     /** @private */
     decodeArrayBuffer(arraybuffer, callback, errback) {
         if (!this.offlineAc) {
@@ -356,85 +278,6 @@ export default class WebAudio extends util.Observer {
         this.mergedPeaks[2 * (length - 1)] = 0;
         this.mergedPeaks[2 * (length - 1) + 1] = 0;
     }
-
-    // Removed getting of peak data
-    /**
-     * Compute the max and min value of the waveform when broken into <length> subranges.
-     *
-     * @param {number} length How many subranges to break the waveform into.
-     * @param {number} first First sample in the required range.
-     * @param {number} last Last sample in the required range.
-     * @return {number[]|number[][]} Array of 2*<length> peaks or array of arrays of
-     * peaks consisting of (max, min) values for each subrange.
-     */
-    /*
-    getPeaks(length, first, last) {
-        if (this.peaks) {
-            return this.peaks;
-        }
-
-        first = first || 0;
-        last = last || length - 1;
-
-        this.setLength(length);
-
-
-        // * The following snippet fixes a buffering data issue on the Safari
-        // * browser which returned undefined It creates the missing buffer based
-        // * on 1 channel, 4096 samples and the sampleRate from the current
-        // * webaudio context 4096 samples seemed to be the best fit for rendering
-        // * will review this code once a stable version of Safari TP is out
-
-        if (!this.buffer.length) {
-            const newBuffer = this.createBuffer(1, 4096, this.sampleRate);
-            this.buffer = newBuffer.buffer;
-        }
-
-        const sampleSize = this.buffer.length / length;
-        const sampleStep = ~~(sampleSize / 10) || 1;
-        const channels = this.buffer.numberOfChannels;
-        let c;
-
-        for (c = 0; c < channels; c++) {
-            const peaks = this.splitPeaks[c];
-            const chan = this.buffer.getChannelData(c);
-            let i;
-
-            for (i = first; i <= last; i++) {
-                const start = ~~(i * sampleSize);
-                const end = ~~(start + sampleSize);
-                let min = 0;
-                let max = 0;
-                let j;
-
-                for (j = start; j < end; j += sampleStep) {
-                    const value = chan[j];
-
-                    if (value > max) {
-                        max = value;
-                    }
-
-                    if (value < min) {
-                        min = value;
-                    }
-                }
-
-                peaks[2 * i] = max;
-                peaks[2 * i + 1] = min;
-
-                if (c == 0 || max > this.mergedPeaks[2 * i]) {
-                    this.mergedPeaks[2 * i] = max;
-                }
-
-                if (c == 0 || min < this.mergedPeaks[2 * i + 1]) {
-                    this.mergedPeaks[2 * i + 1] = min;
-                }
-            }
-        }
-
-        return this.params.splitChannels ? this.splitPeaks : this.mergedPeaks;
-    }
-    */
 
     /**
      * Get the position from 0 to 1
@@ -489,21 +332,6 @@ export default class WebAudio extends util.Observer {
             window.WaveSurferOfflineAudioContext = null;
         }
     }
-
-    // Disable loading of a buffer
-    /**
-     * Loaded a decoded audio buffer
-     *
-     * @param {Object} buffer
-     */
-    /*
-    load(buffer) {
-        this.startPosition = 0;
-        this.lastPlay = this.ac.currentTime;
-        this.buffer = buffer;
-        this.createSource();
-    }
-    */
 
     /** @private */
     createSource() {
