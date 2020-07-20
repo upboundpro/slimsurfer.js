@@ -1,5 +1,7 @@
 # slimsurfer.js
 
+[![Build Status](https://travis-ci.com/upboundpro/slimsurfer.js.svg?branch=master)](https://travis-ci.com/upboundpro/slimsurfer.js)
+
 Slim, interactive navigable audio visualization using Web Audio and Canvas based on
 [wavesurfer.js](https://wavesurfer-js.org). This version does **not** handle audio streaming and playback and is designed to fast rendering of waveforms using **pre-generated peak data**!
 
