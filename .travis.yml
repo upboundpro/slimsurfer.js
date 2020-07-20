@@ -1,20 +1,27 @@
-sudo: false
-dist: trusty
-addons:
-  chrome: stable
-  firefox: latest
+script:
+- npm run lint
+- npm run build
+- npm run test
+- npm run doc
 language: node_js
 node_js:
-  - "node"
-cache:
-  directories:
-  - node_modules
-install:
-  - npm prune
-  - npm install
-  - npm update
-script:
-  - npm run lint
-  - npm run build
-  - npm run test
-  - npm run doc
+- stable
+before_script:
+- npm install
+jobs:
+  include:
+  - stage: deploy
+    name: Deploy to NPM
+    script:
+    - npm run build
+    deploy:
+      provider: npm
+      email: upboundpro@gmail.com
+      api_key:
+        secure: u3fopujvPFQNbBxU0BVFnr7BeeiFY+LB8mPpg4wDfEIvNr1QU52PynHYImsK/LKI3jhT6g3iaKSl6rphMV6aiIpTEBJEQNg3t/osBIuHeMCeHSwxQe7t3Hmh21CyeoZX655MzEIjPz7tjvWXeqsrpkuHj/DV2UEqa8WmhYYRPUJPO+N9vNyp0ipDo0ZTZ5ZouYh9lMkjjvG0TlpD9+cjvlgAlVugS8d81j7+fBitdiD/eY/OYRErQzHbEy+BOzRyfxUR9KD2OWpgEDKu5/kyVAXbzaglyD+TiPhNLl6qeMqJioU42zHJD8P/cHq5syvuz519sRjVMawR184n3yPnqdKKrqazSp+R4Q6FZ0FDRRxvzKtq2dPjKHC46FnlRKtGMdzMjZQGfPEZOYyFm6sWhxXtCU24l+WBABrv/GtJasdb6A0CJZiIXgtzK7Y+kTqWwfmHPoxdsdZ0gv/zjzAvpLr/lYoJhzd9JB4oOcKCr/it3f4x94eDHaBNst91n2zaahobKjlQ8/5KZbIFu9AuRDMAMKItX6bV2hHNkjDytDGQ27Q9w4kNN0ZcD+plL1dgM2utWuZWzI3U5T2UxBUpjINAAyL7gpi0SqC/xpyXJkY03j65wTL2Ei0gfRW25JRfuIg5R3E57jQo0ZMUm8eSQxXq4gZAo36IdbsWvwx27xg=
+      project: "./dist/"
+      skip_cleanup: true
+      tag: next
+      on:
+        branch: master
+        tags: true
